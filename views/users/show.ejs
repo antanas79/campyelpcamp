@@ -1,0 +1,41 @@
+<% include ../partials/header %>
+<div class="container">
+        <div class="row">
+
+  <div class="col-md-4">
+      <h1>User profile: <%= user.firstName + " " + user.lastName %></h1>
+      <div class="thumbnail">
+      <img src="<%= user.avatar %>" alt="user profile image">
+          <div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+        </div>
+        <h5>Bio:</h5>
+        <p><%= user.bio %></p>
+    
+   
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                 <a class= "btn btn-warning editdelete"  href = "/users/<%= user._id %>/edit">Edit Profile </a>
+        <% } %>
+        <% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                 <form  action="/users/<%=user._id %>?_method=DELETE" method="POST">
+                <input type="submit" class="btn btn-danger editdelete" value="Delete Profile   ">
+                </form> 
+        <% } %>
+   
+  
+      </div>
+      
+    <div class="col-md-8">
+       <h4>Campgrounds posted by <%= user.username %>: </h4>
+      <% if(campgrounds.length < 1) { %>
+          <h6 class="mt-4 ml-2"><em>No campgrounds submitted yet...</em></h6> 
+     <% } else { %>
+          <% campgrounds.forEach( campground => { %>
+               <p class="user-campground-list"><a href="../campgrounds/<%= campground.id %>"><%= campground.name %></a></p>
+         <% }) %>
+    <% } %>
+        </div>
+    </div>
+</div>
+
+
+<% include ../partials/footer %>
